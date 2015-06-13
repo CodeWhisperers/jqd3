@@ -27,10 +27,6 @@ var app = {
     // 'load', 'deviceready', 'offline', and 'online'.
     bindEvents: function() {
         document.addEventListener('deviceready', this.onDeviceReady, false);
-
-        document.getElementById("splash").style.display = 'none';
-        document.getElementById("demo").style.display = 'block';
-        draw();
     },
     // deviceready Event Handler
     //
@@ -38,6 +34,20 @@ var app = {
     // function, we must explicitly call 'app.receivedEvent(...);'
     onDeviceReady: function() {
         app.receivedEvent('deviceready');
+        addHelpers();
+
+        document.getElementById("splash").style.display = 'none';
+
+//        document.getElementById("demo").style.display = 'block';
+//        draw();
+
+        document.getElementById("splash").style.display = 'none';
+        document.getElementById("buttons").style.display = 'block';
+        document.getElementById("ajax").addEventListener("click", ajaxCall, false);
+
+        $.support.cors = true;
+
+
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {
@@ -53,6 +63,8 @@ var app = {
 };
 
 app.initialize();
+
+
 
 
 var svg;
@@ -119,4 +131,36 @@ function draw() {
 
     });
 
+}
+
+function addHelpers()
+{
+
+    if (navigator.notification) { // Override default HTML alert with native dialog
+        window.alert = function (message) {
+            navigator.notification.alert(
+                message,    // message
+                null,       // callback
+                "Workshop", // title
+                'OK'        // buttonName
+            );
+        };
+    }
+}
+
+function ajaxCall()
+{
+    alert(1);
+    $.ajax({
+        url: 'http://128.199.35.59/api/quest/1',
+        dataType: 'json',
+        success:function(response) {
+                alert('ok');
+                alert(response);
+            },
+        error: function (error) {
+            alert('no');
+            alert(JSON.stringify(error));
+        }
+    });
 }

@@ -152,8 +152,10 @@ function ajaxCall()
 {
     alert(1);
     $.ajax({
-        url: 'http://128.199.35.59/api/quest/1',
+        url: 'http://cwc.traversable.io/api/quest/1',
+        method: 'GET',
         dataType: 'json',
+        crossDomain:true,
         success:function(response) {
                 alert('ok');
                 alert(response);
